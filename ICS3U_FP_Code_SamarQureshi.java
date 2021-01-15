@@ -8,7 +8,7 @@ public class ICS3U_FP_Code_SamarQureshi {
 		// TODO Auto-generated method stub
 		Scanner input = new Scanner(System.in);
 		
-		int dieRollsLeft = 9;//this will allow the user to roll the die 10 times
+		int dieRollsLeft = 10;//this will allow the user to roll the die 10 times
 		double bits = 20; //20 million bits
 		Boolean[] obtainedProperties = new Boolean[7]; //initializes array that stores values of if 
 		//the user has obtained a property or not, index correlates with index of [] properties
@@ -44,23 +44,33 @@ public class ICS3U_FP_Code_SamarQureshi {
 				+ "Hit enter to continue.");
 		input.nextLine();
 		
-		while(dieRollsLeft>=0) { //condition for allowing the game to continue running
+		while(dieRollsLeft>0) { //condition for allowing the game to continue running
+			
+			//code below is "1 turn"
+			
 			int dieRoll = rollDie();
 			dieRollsLeft--;
 			
+			userLocation +=dieRoll;
+			
+			if(userLocation>15) { //to get rid of the index out of bounds error on []boardSpaces
+				userLocation -=15;
+			}
 	
-			displayLocation(userLocation, boardSpaces, dieRoll);
+			displayLocation(userLocation, boardSpaces);
+			
 			//array moves to space, action is executed, decision may be made
 			
-			
 			displayBits(bits);
+			displayRollsLeft(dieRollsLeft);
 			System.out.println("\nHit enter to roll the die.");
 			input.nextLine();
 
 		}
 		
-		System.out.println("You are out of die rolls!"); //also add display for number of points and properties obtained
-
+		System.out.println("You are out of die rolls!\n"); //also add display for number of points and properties obtained
+		displayBits(bits);
+		
 	}
 	
 	public static int rollDie() { //will generate a number from 1-6 and print out the die roll
@@ -72,12 +82,15 @@ public class ICS3U_FP_Code_SamarQureshi {
 	}
 	
 	public static void displayBits(double bits) { //displays amount of bits user currently has
-		System.out.println("Remaining bits: "+bits+ " million");
+		System.out.println("Total bits: "+bits+ " million");
 	}
 	
-	public static void displayLocation(int userLocation, String [] boardSpaces, int dieRoll) {
-		userLocation +=dieRoll;
-		System.out.println("You have landed on "+ boardSpaces[userLocation]);
+	public static void displayRollsLeft(int dieRollsLeft) {
+		System.out.println("Remaining die rolls: " + dieRollsLeft);
+	}
+	
+	public static void displayLocation(int userLocation, String [] boardSpaces) {
+		System.out.println("You have landed on " + boardSpaces[userLocation] + ".");
 	}
 
 }
