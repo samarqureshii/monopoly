@@ -18,12 +18,12 @@ public class ICS3U_FP_Code_SamarQureshi {
 		String [] boardSpaces = {"Bonus bits!", "Chance 1", "Cairo, Eygpt", 
 				"California, USA", "Tax 1", "Rome, Italy", "Sydney, Austrailia",
 				"Chance 2", "Free parking", "Victoria Falls, Zimbabwe", "Chance 3", 
-				"Krong Siem Reap, Cambodia", "Go to Jail", "Chance 4", "Tax 2", "Cuzco, Peru"};// add "You have landed on ..."
+				"Krong Siem Reap, Cambodia", "Go to Jail", "Chance 4", "Tax 2", "Cuzco, Peru"};// 
 		
 		int userLocation = 0; //index of the [] boardSpaces where the user is at
 		
-		String [] properties = {"Giza Pyramids", "Yosemite National Park", 
-				"The Colosseum", "Sydney Opera House", "Victoria Falls", 
+		String [] properties = {"The Giza Pyramids", "Yosemite National Park", 
+				"The Colosseum", "The Sydney Opera House", "Victoria Falls", 
 				"Angkor Wat", "Machu Picchu"}; //these will be accessed as a [] parameter in the landedOnProperty() method
 		
 		//Element 1: Giza Pyramids; Cairo, Eygpt (0.4 million bits)
@@ -67,12 +67,11 @@ public class ICS3U_FP_Code_SamarQureshi {
 			if(userLocation==2 || userLocation==3 || userLocation== 5 || userLocation== 6 
 					|| userLocation == 9 || userLocation== 11 || userLocation== 15) { //if user lands on a property space
 			
-				propertyAction(userLocation, bits, properties);
+				propertyAction(userLocation, bits, properties, obtainedProperties);
 			}
 			
 			//bits left, and die rolls left is displayed at the end of every turn
 			System.out.println("\n");
-			displayBits(bits);
 			displayRollsLeft(dieRollsLeft);
 			System.out.println("\nHit enter to roll the die.");
 			input.nextLine();
@@ -80,7 +79,7 @@ public class ICS3U_FP_Code_SamarQureshi {
 		}
 		
 		System.out.println("You are out of die rolls!\n"); //also add display for number of points and properties obtained
-		displayBits(bits);
+		
 		
 	}
 	
@@ -111,7 +110,7 @@ public class ICS3U_FP_Code_SamarQureshi {
 	}
 	
 	
-	public static void propertyAction(int userLocation, double bits, String [] properties) { //executes if the user lands on a property space, which are indexes 2, 3, 5, 6, 9, 11, or 15
+	public static void propertyAction(int userLocation, double bits, String [] properties, Boolean [] obtainedProperties) { //executes if the user lands on a property space, which are indexes 2, 3, 5, 6, 9, 11, or 15
 		Scanner input = new Scanner(System.in);
 		double price;
 		
@@ -119,42 +118,57 @@ public class ICS3U_FP_Code_SamarQureshi {
 			price = 0.4;
 			displayProperty(properties, 0); //0th index in []properties
 			displayPrice(price);
+			propertyDecision(bits, price, obtainedProperties, 0, properties);
+			displayBits(bits);
+			
 		}
 		
 		else if(userLocation == 3) { //case where user landed on California, USA
 			price = 1.1;
 			displayProperty(properties, 1); //1st index in []properties
-			displayPrice(price);	
+			displayPrice(price);
+			propertyDecision(bits, price, obtainedProperties, 1, properties);
+			displayBits(bits);
 		}
 		
 		else if(userLocation == 5) { //case where user landed on Rome, Italy
 			price = 1.7;
 			displayProperty(properties, 2); //2nd index in []properties
 			displayPrice(price);	
+			propertyDecision(bits, price, obtainedProperties, 2, properties);
+			displayBits(bits);
 		}
 		
 		else if(userLocation == 6) { //case where user landed on Syndey, Austrailia
 			price = 2;
 			displayProperty(properties, 3); //3rd index in []properties
-			displayPrice(price);	
+			displayPrice(price);
+			propertyDecision(bits, price, obtainedProperties, 3, properties);
+			displayBits(bits);
 		}
 		
 		else if(userLocation == 9) { //case where user landed on Victoria Falls, Zimbabwe
 			price = 2.3;
 			displayProperty(properties, 4); //4th index in []properties
-			displayPrice(price);	
+			displayPrice(price);
+			propertyDecision(bits, price, obtainedProperties, 4, properties);
+			displayBits(bits);
 		}
 		
 		else if(userLocation == 11) { //case where user landed on Krong Siem Reap, Cambodia
 			price = 3.8;
 			displayProperty(properties, 5); //5th index in []properties
-			displayPrice(price);	
+			displayPrice(price);
+			propertyDecision(bits, price, obtainedProperties, 5, properties);
+			displayBits(bits);
 		}
 		
-		else { //case where user landed on Cuzco, Peru
+		else if(userLocation == 15){ //case where user landed on Cuzco, Peru
 			price = 5.4;
 			displayProperty(properties, 6); //6th index in []properties
-			displayPrice(price);	
+			displayPrice(price);
+			propertyDecision(bits, price, obtainedProperties, 6, properties);
+			displayBits(bits);
 		}
 		
 	}
@@ -166,6 +180,29 @@ public class ICS3U_FP_Code_SamarQureshi {
 	
 	public static void displayPrice(double price) { //displays the price of the specific property
 		System.out.println("Price: " + price + " million bits");
+	}
+	
+	public static void propertyDecision(double bits, double price, Boolean[]obtainedProperties, int index, String [] properties) { //allows user to choose whether or not they would like to buy the property
+		Scanner input = new Scanner(System.in);
+		//will allow user to purchase a property or not, and change the boolean value in []obtainedProperties to false for the given property in []properties
+		
+		System.out.println("\n\nPlease select an option from the list below:"
+				+ "\nEnter 1 if you would like to buy this property"
+				+ "\nEnter 2 if you do not want to buy this property");
+		int decisionToBuy = input.nextInt();
+		
+		while(decisionToBuy!=1 && decisionToBuy!=2) {
+			System.out.println("That is not a valid option."
+					+ " Please select an option from the list above.");
+			decisionToBuy = input.nextInt();
+		}
+		
+		if(decisionToBuy==1) {
+			obtainedProperties[index] = true;
+			System.out.println("Congrats, you have purchased " + properties[index] + "!");
+		}
+		
+		
 	}
 
 }
