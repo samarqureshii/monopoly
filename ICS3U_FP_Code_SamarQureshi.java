@@ -70,6 +70,23 @@ public class ICS3U_FP_Code_SamarQureshi {
 				bits = propertyAction(userLocation, bits, properties, obtainedProperties);
 			}
 			
+			else if(userLocation==1 || userLocation==7 || userLocation==10 || userLocation==13) {
+				//chance method runs, returned value of bits in chance is passed here
+				chance(bits, userLocation, obtainedProperties, properties);
+			}
+			
+			else if(userLocation==0){
+				//bonusBits method runs, user collects a random amount of bits
+			}
+			
+			else if(userLocation == 4 || userLocation ==14) {
+				//tax method runs, random amount of bits are deducted from the user
+			}
+			
+			else {
+				//jailState = true, jail method runs
+			}
+			
 			//bits left, and die rolls left is displayed at the end of every turn
 			
 			displayBits(bits);
@@ -111,7 +128,8 @@ public class ICS3U_FP_Code_SamarQureshi {
 	}
 	
 	
-	public static double propertyAction(int userLocation, double bits, String [] properties, Boolean [] obtainedProperties) { //executes if the user lands on a property space, which are indexes 2, 3, 5, 6, 9, 11, or 15
+	public static double propertyAction(int userLocation, double bits, String [] properties, Boolean [] obtainedProperties) { 
+		//executes if the user lands on a property space, which are indexes 2, 3, 5, 6, 9, 11, or 15
 		Scanner input = new Scanner(System.in);
 		double price;
 		
@@ -129,7 +147,7 @@ public class ICS3U_FP_Code_SamarQureshi {
 			displayProperty(properties, 1); //1st index in []properties
 			displayPrice(price);
 			bits = propertyDecision(bits, price, obtainedProperties, 1, properties);
-			
+		
 		}
 		
 		else if(userLocation == 5) { //case where user landed on Rome, Italy
@@ -164,7 +182,7 @@ public class ICS3U_FP_Code_SamarQureshi {
 			
 		}
 		
-		else if(userLocation == 15){ //case where user landed on Cuzco, Peru
+		else { //case where user landed on Cuzco, Peru
 			price = 5.4;
 			displayProperty(properties, 6); //6th index in []properties
 			displayPrice(price);
@@ -187,8 +205,7 @@ public class ICS3U_FP_Code_SamarQureshi {
 	public static double propertyDecision(double bits, double price, Boolean[]obtainedProperties, int index, String [] properties) { //allows user to choose whether or not they would like to buy the property
 		Scanner input = new Scanner(System.in);
 		//will allow user to purchase a property or not, and change the boolean value in []obtainedProperties to false for the given property in []properties
-		
-		
+
 		
 		System.out.println("\n\nPlease select an option from the list below:"
 				+ "\nEnter 1 if you would like to buy this property."
@@ -201,10 +218,89 @@ public class ICS3U_FP_Code_SamarQureshi {
 			decisionToBuy = input.nextInt();
 		}
 		
-		if(decisionToBuy==1) {
+		if(decisionToBuy==1 && bits>=price) {
 			obtainedProperties[index] = true;
-			System.out.println("\nCongrats, you have purchased " + properties[index] + "!");
+			System.out.println("\nCongratulations, you have obtained " + properties[index] + "!");
 			bits -=price;
+		}
+		
+		else if(decisionToBuy==1 && bits<price) {
+			System.out.println("You do not have enough bits to purchase this property.");
+		}
+		
+		return(bits);
+	}
+	
+	public static double chance(double bits, int userLocation, Boolean[]obtainedProperties, String[]properties) { //will run if user lands on a chance space
+		Random rand = new Random();
+		
+		String [] explanations1 = {"While you were trekking across the Western Desert in Egypt, "
+				+ "your camel decided to attack you and left you \nstranded in a sandstorm! "
+				+ "In order to compensate you for this tragedy, the President of Egypt has decided \n"
+				+ "to give you ownership of the Giza Pyramids.", 
+				
+				"You and your dog were climbing "
+						+ "the Sierra Nevada Mountains in California, but your dog jumped off the cliff! \n"
+						+ "As a memento for your dog, you have been transferred ownership of Yosemite National Park.", 
+				
+				"At an Italian auction, the bids to purchase the Colosseum were getting out of hand, "
+						+ "so the auction organizers \ndecided to settle things with an invigorating duel "
+						+ "of rock paper scissors. In the last round, you defeated your \nopponent with paper, "
+						+ "and the Colosseum is now yours!", 
+				
+				"You decided to raid the Sydney Opera House, "
+								+ "and held everyone for ransom! \nScared for their safety, "
+								+ "the opera house trust has now given you full and private ownership "
+								+ "of the \nSydney Opera House.", 
+				
+				"While standing at the top of Victoria Falls, "
+										+ "you dropped your computer, which had all your bits stored inside of "
+										+ "\nit as cryptocurrency!"
+										+ " The Zimbabwean government wanted to compensate you for loss, "
+										+ "and you now have total \nownership of Victoria Falls, and they gave you back all the bits you lost.", 
+										
+				"For many centuries, "
+												+ "the Buddhist temple Angkor Wat has struggled with stable infrastructure "
+												+ "due to heavy rains. \nYou have engineered a new design that will support "
+												+ "the building during monsoon season, and as a thank you \ngesture, "
+												+ "the building is now in your name!", 
+						
+				"There are many untold secrets of Machu Picchu, "
+														+ "an Inca citadel located in the Eastern Cordillera of Peru. "
+														+ "\nOne of your recent archaeological findings explains why this landmark "
+														+ "was built specifically on this hill. \nIn compensation for your shocking discovery, "
+														+ "the Peruvian government has given you full ownership of \nMachu Picchu."};
+			
+		
+		if(userLocation == 1) {//user lands on Chance 1
+		//chance 1 is responsible for giving the user a property if they do not own it	
+			
+		//selects a random index in []obtainedProperties, and will give it to the user IF they do not already have it
+		//if user already has the property, nothing happens
+		
+		int index = rand.nextInt(6);
+		
+			if(!obtainedProperties[index]) {
+				System.out.println(explanations1[index]);
+				obtainedProperties[index] = true;
+			}
+			
+		}
+		
+		else if(userLocation == 7) { //user lands on Chance 2
+		//chance 2 is responsible for giving and taking away bits from the user
+			
+		}
+		
+		else if(userLocation == 10) {//user lands on Chance 3
+		//chance 3 is responsible for taking properties away from the user 
+		
+		//selects a random index in []obtainedProperties, and will take it away from the user IF they have it
+		//if user does not own this property, nothing will happen	
+		}
+		
+		else { //user lands on Chance 4
+			//chance 4sends user to jail
 		}
 		
 		return(bits);
