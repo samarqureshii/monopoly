@@ -15,9 +15,9 @@ public class ICS3U_FP_Code_SamarQureshi {
 		//the user has obtained a property or not, index correlates with index of [] properties
 		fillArrayFalse(obtainedProperties); //fills Boolean array with all false values
 		
-		String [] boardSpaces = {"Bonus bits!", "Chance 1", "Cairo, Eygpt", 
+		String [] boardSpaces = {"Bonus bits 1", "Chance 1", "Cairo, Eygpt", 
 				"California, USA", "Tax 1", "Rome, Italy", "Sydney, Austrailia",
-				"Chance 2", "Free parking", "Victoria Falls, Zimbabwe", "Chance 3", 
+				"Chance 2", "Bonus bits 2", "Victoria Falls, Zimbabwe", "Chance 3", 
 				"Krong Siem Reap, Cambodia", "Go to Jail", "Chance 4", "Tax 2", "Cuzco, Peru"};// 
 		
 		int userLocation = 0; //index of the [] boardSpaces where the user is at
@@ -72,19 +72,23 @@ public class ICS3U_FP_Code_SamarQureshi {
 			
 			else if(userLocation==1 || userLocation==7 || userLocation==10 || userLocation==13) {
 				//chance method runs, returned value of bits in chance is passed here
-				bits = chance(bits, userLocation, obtainedProperties, properties);
+				bits = chance(bits, userLocation, obtainedProperties, properties, dieRoll, dieRollsLeft);
 			}
 			
-			else if(userLocation==0){
+			else if(userLocation==0 || userLocation == 8){
 				//bonusBits method runs, user collects a random amount of bits
 			}
 			
 			else if(userLocation == 4 || userLocation ==14) {
 				//tax method runs, random amount of bits are deducted from the user
+				bits = tax(bits);
 			}
 			
 			else {
 				//jailState = true, jail method runs
+				dieRollsLeft = jail(dieRollsLeft);
+				
+				
 			}
 			
 			//bits left, and die rolls left is displayed at the end of every turn
@@ -97,7 +101,7 @@ public class ICS3U_FP_Code_SamarQureshi {
 		}
 		
 		System.out.println("You are out of die rolls!\n"); //also add display for number of points and properties obtained
-		
+		//game is over
 		
 	}
 	
@@ -137,8 +141,14 @@ public class ICS3U_FP_Code_SamarQureshi {
 			price = 0.4;
 			displayProperty(properties, 0); //0th index in []properties
 			displayPrice(price);
-			bits = propertyDecision(bits, price, obtainedProperties, 0, properties);
+			if(!obtainedProperties[0]) { //user will only be allowed to buy the property if they do not have it
+				bits = propertyDecision(bits, price, obtainedProperties, 0, properties);
+
+			}
 			
+			else { //if user already owns that property
+				System.out.println("\nLooks like you already own "+properties[0]);
+			}
 			
 		}
 		
@@ -146,48 +156,84 @@ public class ICS3U_FP_Code_SamarQureshi {
 			price = 1.1;
 			displayProperty(properties, 1); //1st index in []properties
 			displayPrice(price);
-			bits = propertyDecision(bits, price, obtainedProperties, 1, properties);
-		
+			if(!obtainedProperties[1]) { //user will only be allowed to buy the property if they do not have it
+				bits = propertyDecision(bits, price, obtainedProperties, 1, properties);
+
+			}
+			
+			else { //if user already owns that property
+				System.out.println("\nLooks like you already own "+properties[1]+".");
+			}
 		}
 		
 		else if(userLocation == 5) { //case where user landed on Rome, Italy
 			price = 1.7;
 			displayProperty(properties, 2); //2nd index in []properties
 			displayPrice(price);	
-			bits = propertyDecision(bits, price, obtainedProperties, 2, properties);
+			if(!obtainedProperties[2]) { //user will only be allowed to buy the property if they do not have it
+				bits = propertyDecision(bits, price, obtainedProperties, 2, properties);
+
+			}
 			
+			else { //if user already owns that property
+				System.out.println("\nLooks like you already own "+properties[2]+".");
+			}
 		}
 		
 		else if(userLocation == 6) { //case where user landed on Syndey, Austrailia
 			price = 2;
 			displayProperty(properties, 3); //3rd index in []properties
 			displayPrice(price);
-			bits = propertyDecision(bits, price, obtainedProperties, 3, properties);
+			if(!obtainedProperties[3]) { //user will only be allowed to buy the property if they do not have it
+				bits = propertyDecision(bits, price, obtainedProperties, 3, properties);
+
+			}
 			
+			else { //if user already owns that property
+				System.out.println("\nLooks like you already own "+properties[3]+".");
+			}
 		}
 		
 		else if(userLocation == 9) { //case where user landed on Victoria Falls, Zimbabwe
 			price = 2.3;
 			displayProperty(properties, 4); //4th index in []properties
 			displayPrice(price);
-			bits = propertyDecision(bits, price, obtainedProperties, 4, properties);
+			if(!obtainedProperties[4]) { //user will only be allowed to buy the property if they do not have it
+				bits = propertyDecision(bits, price, obtainedProperties, 4, properties);
+
+			}
 			
+			else { //if user already owns that property
+				System.out.println("\nLooks like you already own "+properties[4]+".");
+			}
 		}
 		
 		else if(userLocation == 11) { //case where user landed on Krong Siem Reap, Cambodia
 			price = 3.8;
 			displayProperty(properties, 5); //5th index in []properties
 			displayPrice(price);
-			bits =propertyDecision(bits, price, obtainedProperties, 5, properties);
+			if(!obtainedProperties[5]) { //user will only be allowed to buy the property if they do not have it
+				bits = propertyDecision(bits, price, obtainedProperties, 5, properties);
+
+			}
 			
+			else { //if user already owns that property
+				System.out.println("\nLooks like you already own "+properties[5]+".");
+			}
 		}
 		
 		else { //case where user landed on Cuzco, Peru
 			price = 5.4;
 			displayProperty(properties, 6); //6th index in []properties
 			displayPrice(price);
-			bits =propertyDecision(bits, price, obtainedProperties, 6, properties);
+			if(!obtainedProperties[6]) { //user will only be allowed to buy the property if they do not have it
+				bits = propertyDecision(bits, price, obtainedProperties, 6, properties);
+
+			}
 			
+			else { //if user already owns that property
+				System.out.println("\nLooks like you already own "+properties[6]+".");
+			}
 		}
 		return(bits);
 		
@@ -231,9 +277,9 @@ public class ICS3U_FP_Code_SamarQureshi {
 		return(bits);
 	}
 	
-	public static double chance(double bits, int userLocation, Boolean[]obtainedProperties, String[]properties) { //will run if user lands on a chance space
+	public static double chance(double bits, int userLocation, Boolean[]obtainedProperties, String[]properties, int dieRoll, int dieRollsLeft) { //will run if user lands on a chance space
 		Random rand = new Random();
-		int index = rand.nextInt(6);
+		int index = rand.nextInt(7);
 		
 		//explanations if the user lands on chance 1
 		String [] explanations1 = {"\nWhile you were trekking across the Western Desert in Egypt, "
@@ -333,10 +379,10 @@ public class ICS3U_FP_Code_SamarQureshi {
 		
 		else if(userLocation == 10) {//user lands on Chance 3
 		//chance 3 is responsible giving and taking away bits from the user
-		int randomBits = -10+rand.nextInt(20);
+		int randomBits = -20+rand.nextInt(38);
 		
 			if(randomBits<0) { //if user loses bits
-				System.out.println("Oh no! You have lost "+randomBits+" million bits.");
+				System.out.println("Oh no! You have lost "+Math.abs(randomBits)+" million bits.");
 				
 			}
 			
@@ -353,7 +399,94 @@ public class ICS3U_FP_Code_SamarQureshi {
 		}
 		else { //user lands on Chance 4
 			//chance 4 sends user to jail
+			jail(dieRollsLeft);
 		}
+		
+		return(bits);
+	}
+	
+	public static int jail(int dieRollsLeft) { //will throw the user in jail
+		Random rand = new Random();
+		Scanner input = new Scanner(System.in);
+		
+		String[]reasons = {};
+		boolean jailState = true;
+		int dieRoll = rollDie();
+		
+		System.out.println("You must roll a 1 or 6 to get out of jail.");
+		
+		while(jailState) {
+			System.out.println("\nHit enter to roll the die.");
+			input.nextLine();
+			
+			dieRoll = rollDie();
+			dieRollsLeft--;
+			displayRollsLeft(dieRollsLeft);
+			
+			if(dieRoll==1 || dieRoll ==6) {
+				System.out.println("You are now out of jail!");
+				jailState = false;
+			}
+			
+			if(dieRollsLeft==0) {
+				return dieRollsLeft;
+			}
+		}
+		
+		return dieRollsLeft;
+		
+		
+		
+		
+	}
+	
+	public static double tax(double bits) {
+		//if user lands on tax 1 or tax 2 they must pay a random tax	
+		Random rand = new Random();
+		int index = rand.nextInt(5);
+		String [] reasons = {"On your most recent flight, your motion sickness got the best of you, "
+				+ "so you threw up on a flight attendant! \nThe airline company was not very happy with you, "
+				+ "and you ended up paying a hefty fine of 12 million bits.",
+				
+				"You had over 70 pounds of undeclared illegal goods in your carry on, "
+				+ "and customs requires that you pay a fine of \n9.8 million bits.",
+				
+				"You broke your leg after falling off the Great Wall of China, and had to "
+				+ "pay 4.8 million bits in hospital fines!",
+				
+				"You accidentally ran over a kangaroo with your Jeep in New Zealand!"
+				+ " You had to pay a fine of 8 million bits \nfor reckless driving, "
+				+ "and another fine of  7.6 million bits for harming an animal native to \nNew Zealand.",
+				
+				"While in South Korea, you were accidentally driving on the wrong side of the road! "
+				+ "\nYou have been fined 14.2 million bits in violation of a road law."};
+		
+		System.out.println(reasons[index]);
+		
+		if(index == 0) {
+			bits-=12;
+		}
+		
+		else if (index==1) {
+			bits-=9.8;
+		}
+		
+		else if(index==2) {
+			bits-=4.8;
+		}
+		
+		else if(index==3) {
+			bits-=(8+7.6);
+		}
+		
+		else if(index==4) {
+			bits-=14.2;
+		}
+		
+		return(bits);
+	}
+	
+	public static double bonusBits(double bits) {
 		
 		return(bits);
 	}
