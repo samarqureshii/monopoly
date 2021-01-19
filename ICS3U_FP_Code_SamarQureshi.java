@@ -147,7 +147,7 @@ public class ICS3U_FP_Code_SamarQureshi {
 			}
 			
 			else { //if user already owns that property
-				System.out.println("\nLooks like you already own "+properties[0]);
+				System.out.println("\nLooks like you already own "+properties[0]+".");
 			}
 			
 		}
@@ -327,7 +327,7 @@ public class ICS3U_FP_Code_SamarQureshi {
 				+ "\nThe park caretakers are not pleased with you, and have revoked your ownership of Yosemite National Park.",
 				
 				"You stole a gondola to travel across the Grand Canal in Venice! "
-				+ "\nAs a result of your irresponsible behaviour, the Italian police have seized your rights to owning the Colosseum.",
+				+ "\nAs a result of your criminal behaviour, the Italian police have seized your rights to owning the Colosseum.",
 				
 				"You sold tickets to a performance at the Sydney Opera House illegally, and as a result of this, "
 				+ "\nthe opera house trust has revoked your ownership of the Sydney Opera House.",
@@ -409,11 +409,30 @@ public class ICS3U_FP_Code_SamarQureshi {
 		Random rand = new Random();
 		Scanner input = new Scanner(System.in);
 		
-		String[]reasons = {};
-		boolean jailState = true;
-		int dieRoll = rollDie();
+		int index = rand.nextInt(6);
+		String[]reasons = {"You used a fake visa to attempt to gain entry into the United Kingdom, "
+				+ "and lied to a customs officer, \nwhich resulted in your denial of entry, and being "
+				+ "arrested by British authorities.",
+				
+				"You assaulted a police officer in Argentina, and failed to show up for your court hearing. "
+				+ "\nAs a result, you have been given a jail sentence.",
+				
+				"You have been found guilty of airline fraud! You are being sent to jail.",
+				
+				"You stole an elephant in Sri Lanka, and demolished a village! "
+				+ "\nYou have been thrown in jail by local authorities.",
+				
+				"The Russian military has identified you as an international criminal and you are "
+				+ "now being sent to a prison \nin St Petersburg!",
+				
+				"You were caught poaching an endangered species of lemur in Madagascar, and have been thrown in jail!"};
 		
-		System.out.println("You must roll a 1 or 6 to get out of jail.");
+		System.out.println(reasons[index]);
+		
+		boolean jailState = true;
+		int dieRoll; 
+		
+		System.out.println("\nYou must roll a 1 or 6 to get out of jail.");
 		
 		while(jailState) {
 			System.out.println("\nHit enter to roll the die.");
@@ -443,7 +462,7 @@ public class ICS3U_FP_Code_SamarQureshi {
 	public static double tax(double bits) {
 		//if user lands on tax 1 or tax 2 they must pay a random tax	
 		Random rand = new Random();
-		int index = rand.nextInt(5);
+		int index = rand.nextInt(6);
 		String [] reasons = {"On your most recent flight, your motion sickness got the best of you, "
 				+ "so you threw up on a flight attendant! \nThe airline company was not very happy with you, "
 				+ "and you ended up paying a hefty fine of 12 million bits.",
@@ -459,7 +478,10 @@ public class ICS3U_FP_Code_SamarQureshi {
 				+ "and another fine of  7.6 million bits for harming an animal native to \nNew Zealand.",
 				
 				"While in South Korea, you were accidentally driving on the wrong side of the road! "
-				+ "\nYou have been fined 14.2 million bits in violation of a road law."};
+				+ "\nYou have been fined 14.2 million bits in violation of a road law.",
+				
+				"You were caught littering in British Columbia! "
+				+ "\nLocal authorities require you to pay a fine of 0.2 million bits."};
 		
 		System.out.println(reasons[index]);
 		
@@ -481,6 +503,10 @@ public class ICS3U_FP_Code_SamarQureshi {
 		
 		else if(index==4) {
 			bits-=14.2;
+		}
+		
+		else if(index==5) {
+			bits-=0.2;
 		}
 		
 		return(bits);
