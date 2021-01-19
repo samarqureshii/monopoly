@@ -8,7 +8,7 @@ public class ICS3U_FP_Code_SamarQureshi {
 		// TODO Auto-generated method stub
 		Scanner input = new Scanner(System.in);
 		
-		int dieRollsLeft = 10;//this will allow the user to roll the die 10 times
+		int dieRollsLeft = 15;//this will allow the user to roll the die 15 times
 		double bits = 20; //20 million bits
 		
 		Boolean[] obtainedProperties = new Boolean[7]; //initializes array that stores values of if 
@@ -54,7 +54,7 @@ public class ICS3U_FP_Code_SamarQureshi {
 			int dieRoll = rollDie();
 			dieRollsLeft--;
 			
-			userLocation +=dieRoll;
+			userLocation +=dieRoll; //adds die roll to the user's current location
 			
 			if(userLocation>15) { //to get rid of the index out of bounds error on []boardSpaces
 				userLocation -=15;
@@ -72,7 +72,7 @@ public class ICS3U_FP_Code_SamarQureshi {
 			
 			else if(userLocation==1 || userLocation==7 || userLocation==10 || userLocation==13) {
 				//chance method runs, returned value of bits in chance is passed here
-				chance(bits, userLocation, obtainedProperties, properties);
+				bits = chance(bits, userLocation, obtainedProperties, properties);
 			}
 			
 			else if(userLocation==0){
@@ -105,12 +105,12 @@ public class ICS3U_FP_Code_SamarQureshi {
 		Random rand = new Random();
 		
 		int dieRoll = 1+rand.nextInt(6);
-		System.out.println("You rolled a "+dieRoll+ "!");
+		System.out.println("You rolled a "+dieRoll+ "!\n");
 		return(dieRoll);
 	}
 	
 	public static void displayBits(double bits) { //displays amount of bits user currently has
-		System.out.println("Total bits: "+bits+ " million");
+		System.out.println("\nTotal bits: "+bits+ " million");
 	}
 	
 	public static void displayRollsLeft(int dieRollsLeft) { //displays the number of die rolls left
@@ -233,44 +233,67 @@ public class ICS3U_FP_Code_SamarQureshi {
 	
 	public static double chance(double bits, int userLocation, Boolean[]obtainedProperties, String[]properties) { //will run if user lands on a chance space
 		Random rand = new Random();
+		int index = rand.nextInt(6);
 		
-		String [] explanations1 = {"While you were trekking across the Western Desert in Egypt, "
+		//explanations if the user lands on chance 1
+		String [] explanations1 = {"\nWhile you were trekking across the Western Desert in Egypt, "
 				+ "your camel decided to attack you and left you \nstranded in a sandstorm! "
 				+ "In order to compensate you for this tragedy, the President of Egypt has decided \n"
 				+ "to give you ownership of the Giza Pyramids.", 
 				
-				"You and your dog were climbing "
+				"\nYou and your dog were climbing "
 						+ "the Sierra Nevada Mountains in California, but your dog jumped off the cliff! \n"
-						+ "As a memento for your dog, you have been transferred ownership of Yosemite National Park.", 
+						+ "As a memento for of dog, you have been transferred ownership of Yosemite National Park.", 
 				
-				"At an Italian auction, the bids to purchase the Colosseum were getting out of hand, "
+				"\nAt an Italian auction, the bids to purchase the Colosseum were getting out of hand, "
 						+ "so the auction organizers \ndecided to settle things with an invigorating duel "
 						+ "of rock paper scissors. In the last round, you defeated your \nopponent with paper, "
 						+ "and the Colosseum is now yours!", 
 				
-				"You decided to raid the Sydney Opera House, "
+				"\nYou decided to raid the Sydney Opera House, "
 								+ "and held everyone for ransom! \nScared for their safety, "
 								+ "the opera house trust has now given you full and private ownership "
 								+ "of the \nSydney Opera House.", 
 				
-				"While standing at the top of Victoria Falls, "
+				"\nWhile standing at the top of Victoria Falls, "
 										+ "you dropped your computer, which had all your bits stored inside of "
 										+ "\nit as cryptocurrency!"
 										+ " The Zimbabwean government wanted to compensate you for loss, "
 										+ "and you now have total \nownership of Victoria Falls, and they gave you back all the bits you lost.", 
 										
-				"For many centuries, "
-												+ "the Buddhist temple Angkor Wat has struggled with stable infrastructure "
+				"\nFor many centuries, "
+												+ "the Buddhist temple Angkor Wat has struggled with unstable infrastructure "
 												+ "due to heavy rains. \nYou have engineered a new design that will support "
 												+ "the building during monsoon season, and as a thank you \ngesture, "
 												+ "the building is now in your name!", 
 						
-				"There are many untold secrets of Machu Picchu, "
+				"\nThere are many mysteries of Machu Picchu, "
 														+ "an Inca citadel located in the Eastern Cordillera of Peru. "
 														+ "\nOne of your recent archaeological findings explains why this landmark "
 														+ "was built specifically on this hill. \nIn compensation for your shocking discovery, "
 														+ "the Peruvian government has given you full ownership of \nMachu Picchu."};
 			
+		//explanations if the user lands on chance 2
+		String [] explanations2 = {"You spilled 10 thousand gallons of oil into the Nile River! "
+				+ "\nThe Egyptian president is not very happy about this, so he has taken away the Giza Pyramids from you.",
+				
+				"You graffitied the Sierra Nevada Mountains! "
+				+ "\nThe park caretakers are not pleased with you, and have revoked your ownership of Yosemite National Park.",
+				
+				"You stole a gondola to travel across the Grand Canal in Venice! "
+				+ "\nAs a result of your irresponsible behaviour, the Italian police have seized your rights to owning the Colosseum.",
+				
+				"You sold tickets to a performance at the Sydney Opera House illegally, and as a result of this, "
+				+ "\nthe opera house trust has revoked your ownership of the Sydney Opera House.",
+				
+				"You were caught cliff diving off Victoria Falls! \nThe Zimbabwean government does not think you are setting a "
+				+ "good example for sightseers, and have taken away your \nrights to owning Victoria Falls.", 
+				
+				"You robbed a Cambodian bank, and the monks at Angkor Wat are not pleased with you. "
+				+ "\nYou have lost ownership of Angkor Wat.",
+				
+				"While residing in  Peru, you were found guilty of tax evasion. "
+				+ "\nInstead of going to jail, you have agreed to give up ownership of Machu Picchu."};
 		
 		if(userLocation == 1) {//user lands on Chance 1
 		//chance 1 is responsible for giving the user a property if they do not own it	
@@ -278,29 +301,58 @@ public class ICS3U_FP_Code_SamarQureshi {
 		//selects a random index in []obtainedProperties, and will give it to the user IF they do not already have it
 		//if user already has the property, nothing happens
 		
-		int index = rand.nextInt(6);
 		
-			if(!obtainedProperties[index]) {
+		
+			if(!obtainedProperties[index]) { //if user does not have that specific property
 				System.out.println(explanations1[index]);
 				obtainedProperties[index] = true;
+			}
+			else { //if user happens to have that specific property
+				System.out.println("\nAwe, we were going to give you ownership of "+properties[index]+", but looks like you already have it.");
 			}
 			
 		}
 		
 		else if(userLocation == 7) { //user lands on Chance 2
-		//chance 2 is responsible for giving and taking away bits from the user
+		//chance 2 is responsible for giving and taking away properties from the user
+		
+			//selects a random index in []obtainedProperties, and will take it away from the user IF they have it
+			//if user does not own this property, nothing will happen
+			if(obtainedProperties[index]) { // if the user has the property, it is taken away from them
+				System.out.println(explanations2[index]); 
+				obtainedProperties[index]=false;
+			}
+			
+			else {
+				System.out.println("We were going to take away " + properties[index]+
+						" from you, but looks like you don't already own it. \nYou got lucky!");
+			}
 			
 		}
 		
+		
 		else if(userLocation == 10) {//user lands on Chance 3
-		//chance 3 is responsible for taking properties away from the user 
+		//chance 3 is responsible giving and taking away bits from the user
+		int randomBits = -10+rand.nextInt(20);
 		
-		//selects a random index in []obtainedProperties, and will take it away from the user IF they have it
-		//if user does not own this property, nothing will happen	
+			if(randomBits<0) { //if user loses bits
+				System.out.println("Oh no! You have lost "+randomBits+" million bits.");
+				
+			}
+			
+			else if (randomBits>0){
+				System.out.println("Congratulations! You have won " + randomBits + " million bits.");
+			}
+			
+			else {
+				System.out.println("You did not lose or gain any bits.");
+			}
+			
+		bits +=randomBits; //adds or subtracts randomBits to total amount of bits
+			
 		}
-		
 		else { //user lands on Chance 4
-			//chance 4sends user to jail
+			//chance 4 sends user to jail
 		}
 		
 		return(bits);
