@@ -20,7 +20,7 @@ public class ICS3U_FP_Code_SamarQureshi {
 				"Chance 2", "Bonus bits 2", "Victoria Falls, Zimbabwe", "Chance 3", 
 				"Krong Siem Reap, Cambodia", "Go to Jail", "Chance 4", "Tax 2", "Cuzco, Peru"};// 
 		
-		int userLocation = 13; //index of the [] boardSpaces where the user is at
+		int userLocation = 10; //index of the [] boardSpaces where the user is at
 		
 		String [] properties = {"The Giza Pyramids", "Yosemite National Park", 
 				"The Colosseum", "The Sydney Opera House", "Victoria Falls", 
@@ -77,15 +77,17 @@ public class ICS3U_FP_Code_SamarQureshi {
 					bits = propertyAction(userLocation, bits, properties, obtainedProperties);
 				}
 				
-				else if(userLocation==1 || userLocation==7 || userLocation==10 || userLocation==13) {
+				else if(userLocation==1 || userLocation==7 || userLocation==10) {
 					//chance 1,2 or 3 method runs, returned value of bits in chance is passed here
 					bits = chance(bits, userLocation, obtainedProperties, properties, dieRoll, dieRollsLeft);
 					
-					if(userLocation==13) { //user lands on Chance 4
-						//chance 4 sends user to jail
-						dieRollsLeft = jail(dieRollsLeft);
+		
+				}
+				
+				else if(userLocation==13) { //user lands on Chance 4
+					//chance 4 sends user to jail
+					dieRollsLeft = jail(dieRollsLeft);
 
-					}
 				}
 				
 				else if(userLocation==0 || userLocation == 8){
@@ -118,7 +120,7 @@ public class ICS3U_FP_Code_SamarQureshi {
 			keepPlaying = keepPlaying();
 		}
 		
-		
+		goodbye(); //random goodbye message for the user
 	}
 	
 	public static int rollDie() { //will generate a number from 1-6 and print out the die roll
@@ -449,6 +451,10 @@ public class ICS3U_FP_Code_SamarQureshi {
 		System.out.println("\nYou must roll a 1 or 6 to get out of jail.");
 		
 		while(jailState) {
+			if(dieRollsLeft == 1) {
+				jailState = false;
+			}
+			
 			System.out.println("\nHit enter to roll the die.");
 			input.nextLine();
 			
@@ -464,6 +470,8 @@ public class ICS3U_FP_Code_SamarQureshi {
 			if(dieRollsLeft==1) {
 				return dieRollsLeft;
 			}
+			
+			
 		}
 		
 		return dieRollsLeft;
@@ -595,6 +603,18 @@ public class ICS3U_FP_Code_SamarQureshi {
 		return valid;
 		
 	}
+	
+	public static void goodbye () {
+        Random rand = new Random();
+        
+        System.out.println("Thanks for playing Worldwide Monopoly!");
+        String message;
+        int index = rand.nextInt(3);
+        String[] options = {"\nHope to see you again!" , "\nUntil next time!" , "\nSee you soon!"};
+        message = options[index];
+        
+        System.out.println(message);
+    }
 	
 	
 
