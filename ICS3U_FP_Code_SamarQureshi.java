@@ -9,19 +9,18 @@ public class ICS3U_FP_Code_SamarQureshi {
 		Scanner input = new Scanner(System.in);
 		
 		int dieRollsLeft = 15;//this will allow the user to roll the die 15 times
-		double bits = 20; //20 million bits
 		boolean keepPlaying = true;
+		double bits = 20;
 		
 		Boolean[] obtainedProperties = new Boolean[7]; //initializes array that stores values of if 
 		//the user has obtained a property or not, index correlates with index of [] properties
-		fillArrayFalse(obtainedProperties); //fills Boolean array with all false values
 		
 		String [] boardSpaces = {"Bonus bits 1", "Chance 1", "Cairo, Eygpt", 
 				"California, USA", "Tax 1", "Rome, Italy", "Sydney, Austrailia",
 				"Chance 2", "Bonus bits 2", "Victoria Falls, Zimbabwe", "Chance 3", 
 				"Krong Siem Reap, Cambodia", "Go to Jail", "Chance 4", "Tax 2", "Cuzco, Peru"};// 
 		
-		int userLocation = 0; //index of the [] boardSpaces where the user is at
+		int userLocation = 13; //index of the [] boardSpaces where the user is at
 		
 		String [] properties = {"The Giza Pyramids", "Yosemite National Park", 
 				"The Colosseum", "The Sydney Opera House", "Victoria Falls", 
@@ -39,17 +38,22 @@ public class ICS3U_FP_Code_SamarQureshi {
 				+ "In this game, you are travelling around the world, "
 				+ "with the objective of buying \nas many properties "
 				+ "as you can in order to gain points. "
-				+ "We’ve given you 20 million bits to obtain the most "
+				+ "We’ve given you "+bits+" million bits to obtain the most "
 				+ "sought \nafter landmarks in the world! Be careful though, "
 				+ "you may encounter various obstacles that could "
 				+ "throw you off \ncourse. "
-				+ "Use your die rolls wisely, as you only have 15!"
+				+ "Use your die rolls wisely, as you only have "+dieRollsLeft+"!"
 				+ "\n\nIf you happen to have more points than the computer at the end of the game, you win!"
 				+ "\n\nLet's get started by having you roll the die. "
 				+ "Hit enter to continue.");
 		input.nextLine();
 		
 		while(keepPlaying) {
+			//the following lines "prepare" the game if the user would like to play again
+			dieRollsLeft = 15;
+			bits = 20;
+			fillArrayFalse(obtainedProperties); //fills Boolean array with all false values
+			
 			while(dieRollsLeft>0) { //condition for allowing the game to continue running
 				
 				//code below is "1 turn"
@@ -74,8 +78,14 @@ public class ICS3U_FP_Code_SamarQureshi {
 				}
 				
 				else if(userLocation==1 || userLocation==7 || userLocation==10 || userLocation==13) {
-					//chance method runs, returned value of bits in chance is passed here
+					//chance 1,2 or 3 method runs, returned value of bits in chance is passed here
 					bits = chance(bits, userLocation, obtainedProperties, properties, dieRoll, dieRollsLeft);
+					
+					if(userLocation==13) { //user lands on Chance 4
+						//chance 4 sends user to jail
+						dieRollsLeft = jail(dieRollsLeft);
+
+					}
 				}
 				
 				else if(userLocation==0 || userLocation == 8){
@@ -89,9 +99,8 @@ public class ICS3U_FP_Code_SamarQureshi {
 				}
 				
 				else {
-					//jailState = true, jail method runs
+					//jailState = true, jail method runs					
 					dieRollsLeft = jail(dieRollsLeft);
-					
 					
 				}
 				
@@ -264,11 +273,13 @@ public class ICS3U_FP_Code_SamarQureshi {
 				+ "\nEnter 1 if you would like to buy this property."
 				+ "\nEnter 2 if you do not want to buy this property.");
 		int decisionToBuy = input.nextInt();
+		input.nextLine();
 		
 		while(decisionToBuy!=1 && decisionToBuy!=2) {
 			System.out.println("That is not a valid option."
 					+ " Please select an option from the list above.");
 			decisionToBuy = input.nextInt();
+			input.nextLine();
 		}
 		
 		if(decisionToBuy==1 && bits>=price) {
@@ -404,10 +415,6 @@ public class ICS3U_FP_Code_SamarQureshi {
 		bits +=randomBits; //adds or subtracts randomBits to total amount of bits
 			
 		}
-		else { //user lands on Chance 4
-			//chance 4 sends user to jail
-			jail(dieRollsLeft);
-		}
 		
 		return(bits);
 	}
@@ -454,7 +461,7 @@ public class ICS3U_FP_Code_SamarQureshi {
 				jailState = false;
 			}
 			
-			if(dieRollsLeft==0) {
+			if(dieRollsLeft==1) {
 				return dieRollsLeft;
 			}
 		}
@@ -568,10 +575,12 @@ public class ICS3U_FP_Code_SamarQureshi {
 				+ "\n1-I would like to play again."
 				+ "\n2-I would like to leave this game.");
 		int option = input.nextInt();
+		input.nextLine();
 		
 		while(option!=1 && option!=2) {
 			System.out.println("That is not a valid option. Please select an option from the list above.");
 			option = input.nextInt();
+			input.nextLine();
 		}
 		
 		if(option==1) {
