@@ -10,6 +10,7 @@ public class ICS3U_FP_Code_SamarQureshi {
 		
 		int dieRollsLeft = 15;//this will allow the user to roll the die 15 times
 		double bits = 20; //20 million bits
+		boolean keepPlaying = true;
 		
 		Boolean[] obtainedProperties = new Boolean[7]; //initializes array that stores values of if 
 		//the user has obtained a property or not, index correlates with index of [] properties
@@ -42,66 +43,72 @@ public class ICS3U_FP_Code_SamarQureshi {
 				+ "sought \nafter landmarks in the world! Be careful though, "
 				+ "you may encounter various obstacles that could "
 				+ "throw you off \ncourse. "
-				+ "Use your die rolls wisely, as you only have 8!"
+				+ "Use your die rolls wisely, as you only have 15!"
+				+ "\n\nIf you happen to have more points than the computer at the end of the game, you win!"
 				+ "\n\nLet's get started by having you roll the die. "
 				+ "Hit enter to continue.");
 		input.nextLine();
 		
-		while(dieRollsLeft>0) { //condition for allowing the game to continue running
-			
-			//code below is "1 turn"
-			
-			int dieRoll = rollDie();
-			dieRollsLeft--;
-			
-			userLocation +=dieRoll; //adds die roll to the user's current location
-			
-			if(userLocation>15) { //to get rid of the index out of bounds error on []boardSpaces
-				userLocation -=15;
-			}
-	
-			displayLocation(userLocation, boardSpaces);
-			
-			//array moves to space, action is executed, decision may be made
-			
-			if(userLocation==2 || userLocation==3 || userLocation== 5 || userLocation== 6 
-					|| userLocation == 9 || userLocation== 11 || userLocation== 15) { //if user lands on a property space
-			
-				bits = propertyAction(userLocation, bits, properties, obtainedProperties);
-			}
-			
-			else if(userLocation==1 || userLocation==7 || userLocation==10 || userLocation==13) {
-				//chance method runs, returned value of bits in chance is passed here
-				bits = chance(bits, userLocation, obtainedProperties, properties, dieRoll, dieRollsLeft);
-			}
-			
-			else if(userLocation==0 || userLocation == 8){
-				//bonusBits method runs, user collects a random amount of bits
-			}
-			
-			else if(userLocation == 4 || userLocation ==14) {
-				//tax method runs, random amount of bits are deducted from the user
-				bits = tax(bits);
-			}
-			
-			else {
-				//jailState = true, jail method runs
-				dieRollsLeft = jail(dieRollsLeft);
+		while(keepPlaying) {
+			while(dieRollsLeft>0) { //condition for allowing the game to continue running
 				
+				//code below is "1 turn"
 				
-			}
-			
-			//bits left, and die rolls left is displayed at the end of every turn
-			
-			displayBits(bits);
-			displayRollsLeft(dieRollsLeft);
-			System.out.println("\nHit enter to roll the die.");
-			input.nextLine();
+				int dieRoll = rollDie();
+				dieRollsLeft--;
+				
+				userLocation +=dieRoll; //adds die roll to the user's current location
+				
+				if(userLocation>15) { //to get rid of the index out of bounds error on []boardSpaces
+					userLocation -=15;
+				}
+		
+				displayLocation(userLocation, boardSpaces);
+				
+				//array moves to space, action is executed, decision may be made
+				
+				if(userLocation==2 || userLocation==3 || userLocation== 5 || userLocation== 6 
+						|| userLocation == 9 || userLocation== 11 || userLocation== 15) { //if user lands on a property space
+				
+					bits = propertyAction(userLocation, bits, properties, obtainedProperties);
+				}
+				
+				else if(userLocation==1 || userLocation==7 || userLocation==10 || userLocation==13) {
+					//chance method runs, returned value of bits in chance is passed here
+					bits = chance(bits, userLocation, obtainedProperties, properties, dieRoll, dieRollsLeft);
+				}
+				
+				else if(userLocation==0 || userLocation == 8){
+					//bonusBits method runs, user collects a random amount of bits
+					bonusBits(bits);
+				}
+				
+				else if(userLocation == 4 || userLocation ==14) {
+					//tax method runs, random amount of bits are deducted from the user
+					bits = tax(bits);
+				}
+				
+				else {
+					//jailState = true, jail method runs
+					dieRollsLeft = jail(dieRollsLeft);
+					
+					
+				}
+				
+				//bits left, and die rolls left is displayed at the end of every turn
+				
+				displayBits(bits);
+				displayRollsLeft(dieRollsLeft);
+				System.out.println("\nHit enter to roll the die.");
+				input.nextLine();
 
+			}
+			
+			//game is over, user can choose to leave or stay
+			endOfGame(obtainedProperties);
+			keepPlaying = keepPlaying();
 		}
 		
-		System.out.println("You are out of die rolls!\n"); //also add display for number of points and properties obtained
-		//game is over
 		
 	}
 	
@@ -122,7 +129,7 @@ public class ICS3U_FP_Code_SamarQureshi {
 	}
 	
 	public static void displayLocation(int userLocation, String [] boardSpaces) { //displays to the user which space they've landed on
-		System.out.println("You have landed on " + boardSpaces[userLocation] + ".");
+		System.out.println("You have landed on " + boardSpaces[userLocation] + ".\n");
 	}
 	
 	public static void fillArrayFalse(Boolean[]array) { //fills a boolean array with all false values
@@ -293,7 +300,7 @@ public class ICS3U_FP_Code_SamarQureshi {
 				
 				"\nAt an Italian auction, the bids to purchase the Colosseum were getting out of hand, "
 						+ "so the auction organizers \ndecided to settle things with an invigorating duel "
-						+ "of rock paper scissors. In the last round, you defeated your \nopponent with paper, "
+						+ "of rock-paper-scissors. In the last round, you defeated your \nopponent with paper, "
 						+ "and the Colosseum is now yours!", 
 				
 				"\nYou decided to raid the Sydney Opera House, "
@@ -463,58 +470,123 @@ public class ICS3U_FP_Code_SamarQureshi {
 		//if user lands on tax 1 or tax 2 they must pay a random tax	
 		Random rand = new Random();
 		int index = rand.nextInt(6);
+		int fine = 1+rand.nextInt(16); //will generate a fine between 1 and 15 million bits
 		String [] reasons = {"On your most recent flight, your motion sickness got the best of you, "
 				+ "so you threw up on a flight attendant! \nThe airline company was not very happy with you, "
-				+ "and you ended up paying a hefty fine of 12 million bits.",
+				+ "and you ended up paying a hefty fine of "+fine+" million bits.",
 				
-				"You had over 70 pounds of undeclared illegal goods in your carry on, "
-				+ "and customs requires that you pay a fine of \n9.8 million bits.",
+				"You had over 70 pounds of undeclared illegal goods in your suitcase, "
+				+ "and customs requires that you pay a fine \nof "+fine+" million bits.",
 				
 				"You broke your leg after falling off the Great Wall of China, and had to "
-				+ "pay 4.8 million bits in hospital fines!",
+				+ "pay "+fine+" million bits in hospital fines!",
 				
 				"You accidentally ran over a kangaroo with your Jeep in New Zealand!"
 				+ " You had to pay a fine of 8 million bits \nfor reckless driving, "
-				+ "and another fine of  7.6 million bits for harming an animal native to \nNew Zealand.",
+				+ "and another fine of "+fine+" million bits for harming an animal native to \nNew Zealand.",
 				
 				"While in South Korea, you were accidentally driving on the wrong side of the road! "
-				+ "\nYou have been fined 14.2 million bits in violation of a road law.",
+				+ "\nYou have been fined "+fine+" million bits in violation of a road law.",
 				
 				"You were caught littering in British Columbia! "
-				+ "\nLocal authorities require you to pay a fine of 0.2 million bits."};
+				+ "\nLocal authorities require you to pay a fine of "+fine+" million bits."};
 		
 		System.out.println(reasons[index]);
 		
-		if(index == 0) {
-			bits-=12;
-		}
-		
-		else if (index==1) {
-			bits-=9.8;
-		}
-		
-		else if(index==2) {
-			bits-=4.8;
-		}
-		
-		else if(index==3) {
-			bits-=(8+7.6);
-		}
-		
-		else if(index==4) {
-			bits-=14.2;
-		}
-		
-		else if(index==5) {
-			bits-=0.2;
-		}
+		bits-=fine;
 		
 		return(bits);
 	}
 	
 	public static double bonusBits(double bits) {
+		Random rand = new Random();
+		int index = rand.nextInt(6);
+		int bonus = 1+rand.nextInt(16);
+		
+		String [] reasons = {"You have won the Nobel Peace Prize for your substantial "
+				+ "contributions around the world, \nalong with 10 million bits!", 
+				
+				"Tesla has decided to pay all of its international stockholders "
+				+ "(which includes you) a special dividend of \n"+bonus+" million bits each!",
+				
+				"You have collected enough points with the airline that you frequently fly with, "
+				+ "and you were able to redeem \n"+bonus+" million bits!",
+				
+				"Your bond with the French government has matured, and you’ve made "+bonus+" million bits "
+				+ "in interest!",
+				
+				"You have won "+bonus+" million bits from an eating competition in Ireland!",
+				
+				"A travellers convention that you attended in South Africa decided to give all "
+				+ "attendees "+bonus+" million bits!"};
+		
+		System.out.println(reasons[index]);
+		bits +=bonus;
 		
 		return(bits);
 	}
+	
+	public static void endOfGame(Boolean[]obtainedProperties) {
+		Random rand = new Random();
+		
+		int obtained = 0;
+		
+		System.out.println("You are out of die rolls!");
+		
+		//calculates how many points the user obtained
+		for(int i = 0; i<obtainedProperties.length; i++) {
+			if(obtainedProperties[i]) {
+				obtained++;
+			}
+		}
+		
+		int userPoints = (int)Math.pow(10, obtained);
+		int compPoints = 1+rand.nextInt(10000001);
+		
+		System.out.println("\nYou have obtained " + obtained + " properties, which got you "+userPoints+" points."
+				+ "\nHowever, the computer managed to get "+compPoints+" points.");
+		
+		if(userPoints>compPoints) {
+			System.out.println("\nCongratulations on conquering the world!");
+		}
+		
+		else if(userPoints<compPoints) {
+			System.out.println("\nI guess the odds weren't in your favor, better luck next time!");
+		}
+		
+		else {
+			System.out.println("\nAccording to my calculations, there appears to be a tie.\n"
+					+ "How can this be...?");
+		}
+	}
+	
+	public static boolean keepPlaying() {
+		Scanner input = new Scanner(System.in);
+		boolean valid = true;
+		
+		System.out.println("\n\nPlease select an option from the list below:"
+				+ "\n1-I would like to play again."
+				+ "\n2-I would like to leave this game.");
+		int option = input.nextInt();
+		
+		while(option!=1 && option!=2) {
+			System.out.println("That is not a valid option. Please select an option from the list above.");
+			option = input.nextInt();
+		}
+		
+		if(option==1) {
+			valid = true;
+			
+		}
+		
+		else if(option== 2){
+			valid = false;
+		}
+		
+		return valid;
+		
+	}
+	
+	
 
 }
