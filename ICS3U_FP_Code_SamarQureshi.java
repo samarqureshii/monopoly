@@ -5,9 +5,12 @@ import java.text.NumberFormat;
 
 public class ICS3U_FP_Code_SamarQureshi {
 	
+	private static final Scanner input = new Scanner(System.in);
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Scanner input = new Scanner(System.in);
+		NumberFormat decimal=NumberFormat.getNumberInstance();
+		//Scanner input = new Scanner(System.in);
 		
 		int dieRollsLeft = 15;//this will allow the user to roll the die 15 times
 		boolean keepPlaying = true;
@@ -39,7 +42,7 @@ public class ICS3U_FP_Code_SamarQureshi {
 				+ "In this game, you are travelling around the world, "
 				+ "with the objective of buying \nas many properties "
 				+ "as you can in order to gain points. "
-				+ "We’ve given you "+bits+" million bits to obtain the most "
+				+ "We’ve given you "+decimal.format(bits)+" million bits to obtain the most "
 				+ "sought \nafter landmarks in the world! Be careful though, "
 				+ "you may encounter various obstacles that could "
 				+ "throw you off \ncourse. "
@@ -51,7 +54,7 @@ public class ICS3U_FP_Code_SamarQureshi {
 		
 		while(keepPlaying) {
 			//the following lines "prepare" the game if the user would like to play again
-			dieRollsLeft = 3;
+			dieRollsLeft = 15;
 			bits = 20;
 			fillArrayFalse(obtainedProperties); //fills Boolean array with all false values
 			
@@ -156,7 +159,7 @@ public class ICS3U_FP_Code_SamarQureshi {
 	
 	public static double propertyAction(int userLocation, double bits, String [] properties, Boolean [] obtainedProperties) { 
 		//executes if the user lands on a property space, which are indexes 2, 3, 5, 6, 9, 11, or 15
-		Scanner input = new Scanner(System.in);
+		//Scanner input = new Scanner(System.in);
 		double price;
 		
 		if(userLocation == 2) { // case where user landed on Cairo, Eygpt
@@ -271,7 +274,7 @@ public class ICS3U_FP_Code_SamarQureshi {
 	}
 	
 	public static double propertyDecision(double bits, double price, Boolean[]obtainedProperties, int index, String [] properties) { //allows user to choose whether or not they would like to buy the property
-		Scanner input = new Scanner(System.in);
+		//Scanner input = new Scanner(System.in);
 		//will allow user to purchase a property or not, and change the boolean value in []obtainedProperties to false for the given property in []properties
 
 		
@@ -427,7 +430,7 @@ public class ICS3U_FP_Code_SamarQureshi {
 	
 	public static int jail(int dieRollsLeft) { //will throw the user in jail
 		Random rand = new Random();
-		Scanner input = new Scanner(System.in);
+		//Scanner input = new Scanner(System.in);
 		
 		int index = rand.nextInt(6);
 		String[]reasons = {"You used a fake visa to attempt to gain entry into the United Kingdom, "
@@ -456,7 +459,8 @@ public class ICS3U_FP_Code_SamarQureshi {
 		
 		while(jailState) {
 			
-			if(dieRollsLeft==0) {
+			if(dieRollsLeft==0) { 
+				//if the user happens to run out of die rolls while in jail, this will ensure that the game ends, so dieRollsLeft does not go into negative numbers
 				return dieRollsLeft;
 			}
 			
@@ -487,7 +491,9 @@ public class ICS3U_FP_Code_SamarQureshi {
 		//if user lands on tax 1 or tax 2 they must pay a random tax	
 		Random rand = new Random();
 		int index = rand.nextInt(6);
-		int fine = 1+rand.nextInt(16); //will generate a fine between 1 and 15 million bits
+		int fine = 1+rand.nextInt(16); 
+		//will generate a fine between 1 and 15 million bits
+		
 		String [] reasons = {"On your most recent flight, your motion sickness got the best of you, "
 				+ "so you threw up on a flight attendant! \nThe airline company was not very happy with you, "
 				+ "and you ended up paying a hefty fine of "+fine+" million bits.",
@@ -581,7 +587,7 @@ public class ICS3U_FP_Code_SamarQureshi {
 	}
 	
 	public static boolean keepPlaying() {
-		Scanner input = new Scanner(System.in);
+		//Scanner input = new Scanner(System.in);
 		boolean valid = true;
 		
 		System.out.println("\n\nPlease select an option from the list below:"
@@ -597,9 +603,8 @@ public class ICS3U_FP_Code_SamarQureshi {
 		}
 		
 		if(option==1) { //user chose to stay
-			System.out.println("Here we go again.\n"
-					+ "\nHit enter to roll the die.");
-			input.nextLine();
+			System.out.println("Here we go again.\n");
+			
 			valid = true;
 			
 		}
