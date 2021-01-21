@@ -463,14 +463,14 @@ public class ICS3U_FP_Code_SamarQureshi {
 			
 			dieRoll = rollDie();
 			dieRollsLeft--;
-			displayRollsLeft(dieRollsLeft);
+			
 			
 			if(dieRoll==1 || dieRoll ==6) {
 				System.out.println("You are now out of jail!");
 				jailState = false;
 			}
 		
-			
+			displayRollsLeft(dieRollsLeft);
 			
 		}
 		
@@ -500,7 +500,7 @@ public class ICS3U_FP_Code_SamarQureshi {
 				
 				"You accidentally ran over a kangaroo with your Jeep in New Zealand!"
 				+ " You had to pay a fine of 8 million bits \nfor reckless driving, "
-				+ "and another fine of "+fine+" million bits for harming an animal native to \nNew Zealand.",
+				+ "and another fine of "+fine+" million bits for harming an animal native to New Zealand.",
 				
 				"While in South Korea, you were accidentally driving on the wrong side of the road! "
 				+ "\nYou have been fined "+fine+" million bits in violation of a road law.",
@@ -589,7 +589,7 @@ public class ICS3U_FP_Code_SamarQureshi {
 				+ "\nEnter 2 if you would like to leave this game.");
 		String option = input.nextLine();
 		
-		option = invalidInput(option);
+		option = invalidInput(option); //if user inputs an option not listed
 		
 		if(option.equals("1")) { //user chose to stay
 			System.out.println("Here we go again.\n");
@@ -608,10 +608,11 @@ public class ICS3U_FP_Code_SamarQureshi {
 	}
 	
 	public static String goodbye () {
+		//runs at the end of the game
         Random rand = new Random();
         
         System.out.println("\nI guess your travels have finally come to an end."
-        		+ "\nThanks for playing Worldwide Monopoly!");
+        		+ "\n\nThanks for playing Worldwide Monopoly!");
         String message;
         int index = rand.nextInt(5);
         String[] options = {"\nHope to see you again!" , "\nUntil next time!" , 
@@ -621,13 +622,14 @@ public class ICS3U_FP_Code_SamarQureshi {
         return(message);
     }
 	
-	public static String invalidInput(String option) {
-		while(!option.equals("1") && !option.equals("2")) {
+	public static String invalidInput(String choice) { 
+		//runs in any other method that requires 1 or 2 as input, and forces user to only entering '1' or '2'
+		while(!choice.equals("1") && !choice.equals("2")) {
 			System.out.println("That is not a valid option. Please select an option from the list above.");
-			option = input.nextLine();
+			choice = input.nextLine();
 		}
 		
-		return(option);
+		return(choice);
 	}
 	
 	
