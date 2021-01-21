@@ -21,7 +21,7 @@ public class ICS3U_FP_Code_SamarQureshi {
 				"Chance 2", "Bonus bits 2", "Victoria Falls, Zimbabwe", "Chance 3", 
 				"Krong Siem Reap, Cambodia", "Go to Jail", "Chance 4", "Tax 2", "Cuzco, Peru"};// 
 		
-		int userLocation = 0; //index of the [] boardSpaces where the user is at
+		int userLocation = 10; //index of the [] boardSpaces where the user is at
 		
 		String [] properties = {"The Giza Pyramids", "Yosemite National Park", 
 				"The Colosseum", "The Sydney Opera House", "Victoria Falls", 
@@ -46,19 +46,23 @@ public class ICS3U_FP_Code_SamarQureshi {
 				+ "Use your die rolls wisely, as you only have "+dieRollsLeft+"!"
 				+ "\n\nIf you happen to have more points than the computer at the end of the game, you win!"
 				+ "\n\nWe wish you the best of luck on your travels!"
-				+ "\n\nLet's get started by having you roll the die. "
-				+ "Hit enter to continue.");
-		input.nextLine();
+				+ "\n\nLet's get started by having you roll the die. ");
+		
 		
 		while(keepPlaying) {
 			//the following lines "prepare" the game if the user would like to play again
-			dieRollsLeft = 1;
+			dieRollsLeft = 3;
 			bits = 20;
 			fillArrayFalse(obtainedProperties); //fills Boolean array with all false values
 			
 			while(dieRollsLeft>0) { //condition for allowing the game to continue running
 				
 				//code below is "1 turn"
+				
+				displayBits(bits);
+				displayRollsLeft(dieRollsLeft);
+				System.out.println("\nHit enter to roll the die.");
+				input.nextLine();
 				
 				int dieRoll = rollDie();
 				dieRollsLeft--;
@@ -103,17 +107,14 @@ public class ICS3U_FP_Code_SamarQureshi {
 				}
 				
 				else {
-					//jailState = true, jail method runs					
+					//user has landed on go to jail, they need to roll a 1 or 6 to be freed				
 					dieRollsLeft = jail(dieRollsLeft);
 					
 				}
 				
 				//bits left, and die rolls left is displayed at the end of every turn
 				
-				displayBits(bits);
-				displayRollsLeft(dieRollsLeft);
-				System.out.println("\nHit enter to roll the die.");
-				input.nextLine();
+				
 
 			}
 			
@@ -454,8 +455,9 @@ public class ICS3U_FP_Code_SamarQureshi {
 		System.out.println("\nYou must roll a 1 or 6 to get out of jail.");
 		
 		while(jailState) {
-			if(dieRollsLeft == 1) {
-				jailState = false;
+			
+			if(dieRollsLeft==0) {
+				return dieRollsLeft;
 			}
 			
 			System.out.println("\nHit enter to roll the die.");
@@ -469,10 +471,7 @@ public class ICS3U_FP_Code_SamarQureshi {
 				System.out.println("You are now out of jail!");
 				jailState = false;
 			}
-			
-			if(dieRollsLeft==1) {
-				return dieRollsLeft;
-			}
+		
 			
 			
 		}
@@ -558,10 +557,13 @@ public class ICS3U_FP_Code_SamarQureshi {
 			}
 		}
 		
+		 // max number of points is 10^7, as there are 7 properties
 		int userPoints = (int)Math.pow(10, obtained);
+		 
+		//generates a random number between 1 and 10^7, which is the range for how many points the user can possibly obtain
 		int compPoints = 1+rand.nextInt(10000001);
 		
-		System.out.println("\nYou have obtained " + obtained + " properties, which got you "+userPoints+" points."
+		System.out.println("\nYou have obtained " + obtained + " properties, which managaed to get you "+userPoints+" point(s)."
 				+ "\nHowever, the computer managed to get "+compPoints+" points.");
 		
 		if(userPoints>compPoints) {
