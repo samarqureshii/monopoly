@@ -1,6 +1,7 @@
 import java.util.Scanner;
 import java.util.Random;
 import java.lang.Math;
+import java.text.NumberFormat;
 
 public class ICS3U_FP_Code_SamarQureshi {
 	
@@ -20,7 +21,7 @@ public class ICS3U_FP_Code_SamarQureshi {
 				"Chance 2", "Bonus bits 2", "Victoria Falls, Zimbabwe", "Chance 3", 
 				"Krong Siem Reap, Cambodia", "Go to Jail", "Chance 4", "Tax 2", "Cuzco, Peru"};// 
 		
-		int userLocation = 10; //index of the [] boardSpaces where the user is at
+		int userLocation = 0; //index of the [] boardSpaces where the user is at
 		
 		String [] properties = {"The Giza Pyramids", "Yosemite National Park", 
 				"The Colosseum", "The Sydney Opera House", "Victoria Falls", 
@@ -44,13 +45,14 @@ public class ICS3U_FP_Code_SamarQureshi {
 				+ "throw you off \ncourse. "
 				+ "Use your die rolls wisely, as you only have "+dieRollsLeft+"!"
 				+ "\n\nIf you happen to have more points than the computer at the end of the game, you win!"
+				+ "\n\nWe wish you the best of luck on your travels!"
 				+ "\n\nLet's get started by having you roll the die. "
 				+ "Hit enter to continue.");
 		input.nextLine();
 		
 		while(keepPlaying) {
 			//the following lines "prepare" the game if the user would like to play again
-			dieRollsLeft = 15;
+			dieRollsLeft = 1;
 			bits = 20;
 			fillArrayFalse(obtainedProperties); //fills Boolean array with all false values
 			
@@ -92,7 +94,7 @@ public class ICS3U_FP_Code_SamarQureshi {
 				
 				else if(userLocation==0 || userLocation == 8){
 					//bonusBits method runs, user collects a random amount of bits
-					bonusBits(bits);
+					bits = bonusBits(bits);
 				}
 				
 				else if(userLocation == 4 || userLocation ==14) {
@@ -120,7 +122,7 @@ public class ICS3U_FP_Code_SamarQureshi {
 			keepPlaying = keepPlaying();
 		}
 		
-		goodbye(); //random goodbye message for the user
+		System.out.println(goodbye()); //random goodbye message for the user
 	}
 	
 	public static int rollDie() { //will generate a number from 1-6 and print out the die roll
@@ -132,7 +134,8 @@ public class ICS3U_FP_Code_SamarQureshi {
 	}
 	
 	public static void displayBits(double bits) { //displays amount of bits user currently has
-		System.out.println("\nTotal bits: "+bits+ " million");
+		NumberFormat decimal=NumberFormat.getNumberInstance();
+		System.out.println("\nTotal bits: "+decimal.format(bits)+ " million");
 	}
 	
 	public static void displayRollsLeft(int dieRollsLeft) { //displays the number of die rolls left
@@ -591,12 +594,15 @@ public class ICS3U_FP_Code_SamarQureshi {
 			input.nextLine();
 		}
 		
-		if(option==1) {
+		if(option==1) { //user chose to stay
+			System.out.println("Here we go again.\n"
+					+ "\nHit enter to roll the die.");
+			input.nextLine();
 			valid = true;
 			
 		}
 		
-		else if(option== 2){
+		else if(option== 2){ //user chose to leave
 			valid = false;
 		}
 		
@@ -604,16 +610,17 @@ public class ICS3U_FP_Code_SamarQureshi {
 		
 	}
 	
-	public static void goodbye () {
+	public static String goodbye () {
         Random rand = new Random();
         
-        System.out.println("Thanks for playing Worldwide Monopoly!");
+        System.out.println("\nI guess your travels have finally come to an end."
+        		+ "\nThanks for playing Worldwide Monopoly!");
         String message;
         int index = rand.nextInt(3);
         String[] options = {"\nHope to see you again!" , "\nUntil next time!" , "\nSee you soon!"};
         message = options[index];
         
-        System.out.println(message);
+        return(message);
     }
 	
 	
