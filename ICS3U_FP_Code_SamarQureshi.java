@@ -281,23 +281,17 @@ public class ICS3U_FP_Code_SamarQureshi {
 		System.out.println("\n\nPlease select an option from the list below:"
 				+ "\nEnter 1 if you would like to buy this property."
 				+ "\nEnter 2 if you do not want to buy this property.");
-		int decisionToBuy = input.nextInt();
-		input.nextLine();
+		String decisionToBuy = input.nextLine();
 		
-		while(decisionToBuy!=1 && decisionToBuy!=2) {
-			System.out.println("That is not a valid option."
-					+ " Please select an option from the list above.");
-			decisionToBuy = input.nextInt();
-			input.nextLine();
-		}
+		decisionToBuy = invalidInput(decisionToBuy);
 		
-		if(decisionToBuy==1 && bits>=price) {
+		if(decisionToBuy.equals("1") && bits>=price) {
 			obtainedProperties[index] = true;
 			System.out.println("\nCongratulations, you have obtained " + properties[index] + "!");
 			bits -=price;
 		}
 		
-		else if(decisionToBuy==1 && bits<price) {
+		else if(decisionToBuy.equals("1") && bits<price) {
 			System.out.println("You do not have enough bits to purchase this property.");
 		}
 		
@@ -591,25 +585,21 @@ public class ICS3U_FP_Code_SamarQureshi {
 		boolean valid = true;
 		
 		System.out.println("\n\nPlease select an option from the list below:"
-				+ "\n1-I would like to play again."
-				+ "\n2-I would like to leave this game.");
-		int option = input.nextInt();
-		input.nextLine();
+				+ "\nEnter 1 if you would like to play again."
+				+ "\nEnter 2 if you would like to leave this game.");
+		String option = input.nextLine();
 		
-		while(option!=1 && option!=2) {
-			System.out.println("That is not a valid option. Please select an option from the list above.");
-			option = input.nextInt();
-			input.nextLine();
-		}
+		option = invalidInput(option);
 		
-		if(option==1) { //user chose to stay
+		if(option.equals("1")) { //user chose to stay
 			System.out.println("Here we go again.\n");
 			
 			valid = true;
 			
 		}
 		
-		else if(option== 2){ //user chose to leave
+		else if(option.equals("2")){ //user chose to leave
+			
 			valid = false;
 		}
 		
@@ -630,6 +620,15 @@ public class ICS3U_FP_Code_SamarQureshi {
         
         return(message);
     }
+	
+	public static String invalidInput(String option) {
+		while(!option.equals("1") && !option.equals("2")) {
+			System.out.println("That is not a valid option. Please select an option from the list above.");
+			option = input.nextLine();
+		}
+		
+		return(option);
+	}
 	
 	
 
