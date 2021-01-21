@@ -433,9 +433,9 @@ public class ICS3U_FP_Code_SamarQureshi {
 		//Scanner input = new Scanner(System.in);
 		
 		int index = rand.nextInt(6);
-		String[]reasons = {"You used a fake visa to attempt to gain entry into the United Kingdom, "
-				+ "and lied to a customs officer, \nwhich resulted in your denial of entry, and being "
-				+ "arrested by British authorities.",
+		String[]reasons = {"You used a fake visa in an attempt to gain entry into the United Kingdom, "
+				+ "and lied to a customs officer, \nwhich resulted in your denial of entry, and your "
+				+ "arrest by British authorities.",
 				
 				"You assaulted a police officer in Argentina, and failed to show up for your court hearing. "
 				+ "\nAs a result, you have been given a jail sentence.",
@@ -554,7 +554,7 @@ public class ICS3U_FP_Code_SamarQureshi {
 		
 		int obtained = 0;
 		
-		System.out.println("You are out of die rolls!");
+		System.out.println("\nLooks like you're out of die rolls!");
 		
 		//calculates how many points the user obtained
 		for(int i = 0; i<obtainedProperties.length; i++) {
@@ -623,8 +623,9 @@ public class ICS3U_FP_Code_SamarQureshi {
         System.out.println("\nI guess your travels have finally come to an end."
         		+ "\nThanks for playing Worldwide Monopoly!");
         String message;
-        int index = rand.nextInt(3);
-        String[] options = {"\nHope to see you again!" , "\nUntil next time!" , "\nSee you soon!"};
+        int index = rand.nextInt(5);
+        String[] options = {"\nHope to see you again!" , "\nUntil next time!" , 
+        		"\nSee you soon!", "\nNice meeting you!", "\nGoodbye!"};
         message = options[index];
         
         return(message);
