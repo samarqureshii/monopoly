@@ -12,15 +12,15 @@ public class ICS3U_FP_Code_SamarQureshi {
 		NumberFormat decimal=NumberFormat.getNumberInstance();
 		//Scanner input = new Scanner(System.in);
 		
-		int dieRollsLeft = 15;//this will allow the user to roll the die 15 times
+		int dieRollsLeft = 20;//this will allow the user to roll the die 15 times
 		boolean keepPlaying = true;
 		double bits = 20;
 		
 		Boolean[] obtainedProperties = new Boolean[7]; //initializes array that stores values of if 
 		//the user has obtained a property or not, index correlates with index of [] properties
 		
-		String [] boardSpaces = {"Bonus bits 1", "Chance 1", "Cairo, Eygpt", 
-				"California, USA", "Tax 1", "Rome, Italy", "Sydney, Austrailia",
+		String [] boardSpaces = {"Bonus bits 1", "Chance 1", "Cairo, Egypt", 
+				"California, USA", "Tax 1", "Rome, Italy", "Sydney, Australia",
 				"Chance 2", "Bonus bits 2", "Victoria Falls, Zimbabwe", "Chance 3", 
 				"Krong Siem Reap, Cambodia", "Go to Jail", "Chance 4", "Tax 2", "Cuzco, Peru"};// 
 		
@@ -54,7 +54,7 @@ public class ICS3U_FP_Code_SamarQureshi {
 		
 		while(keepPlaying) {
 			//the following lines "prepare" the game if the user would like to play again
-			dieRollsLeft = 15;
+			dieRollsLeft = 20;
 			bits = 20;
 			fillArrayFalse(obtainedProperties); //fills Boolean array with all false values
 			
@@ -133,7 +133,7 @@ public class ICS3U_FP_Code_SamarQureshi {
 		Random rand = new Random();
 		
 		int dieRoll = 1+rand.nextInt(6);
-		System.out.println("You rolled a "+dieRoll+ "!\n");
+		System.out.println("You rolled a "+dieRoll+ "!");
 		return(dieRoll);
 	}
 	
@@ -266,7 +266,7 @@ public class ICS3U_FP_Code_SamarQureshi {
 	
 	public static void displayProperty(String [] properties, int propertyIndex) {
 		
-		System.out.println("Availiable property for sale: " + properties[propertyIndex]);
+		System.out.println("Available property for sale: " + properties[propertyIndex]);
 	}
 	
 	public static void displayPrice(double price) { //displays the price of the specific property
@@ -287,7 +287,13 @@ public class ICS3U_FP_Code_SamarQureshi {
 		
 		if(decisionToBuy.equals("1") && bits>=price) {
 			obtainedProperties[index] = true;
-			System.out.println("\nCongratulations, you have obtained " + properties[index] + "!");
+			
+			System.out.println("\n");
+			asterixLine(properties, index);
+			System.out.println("\n*Congratulations, you have obtained " + properties[index] + "!*");
+			asterixLine(properties, index);
+			System.out.println("\n");
+			
 			bits -=price;
 		}
 		
@@ -297,6 +303,7 @@ public class ICS3U_FP_Code_SamarQureshi {
 		
 		return(bits);
 	}
+	
 	
 	public static double chance(double bits, int userLocation, Boolean[]obtainedProperties, String[]properties, int dieRoll, int dieRollsLeft) { //will run if user lands on a chance space
 		Random rand = new Random();
@@ -310,7 +317,7 @@ public class ICS3U_FP_Code_SamarQureshi {
 				
 				"\nYou and your dog were climbing "
 						+ "the Sierra Nevada Mountains in California, but your dog jumped off the cliff! \n"
-						+ "As a memento for of dog, you have been transferred ownership of Yosemite National Park.", 
+						+ "As a memento for your dog, you have been transferred ownership of Yosemite National Park.", 
 				
 				"\nAt an Italian auction, the bids to purchase the Colosseum were getting out of hand, "
 						+ "so the auction organizers \ndecided to settle things with an invigorating duel "
@@ -426,7 +433,7 @@ public class ICS3U_FP_Code_SamarQureshi {
 		Random rand = new Random();
 		//Scanner input = new Scanner(System.in);
 		
-		int index = rand.nextInt(6);
+		int index = rand.nextInt(10);
 		String[]reasons = {"You used a fake visa in an attempt to gain entry into the United Kingdom, "
 				+ "and lied to a customs officer, \nwhich resulted in your denial of entry, and your "
 				+ "arrest by British authorities.",
@@ -442,7 +449,15 @@ public class ICS3U_FP_Code_SamarQureshi {
 				"The Russian military has identified you as an international criminal and you are "
 				+ "now being sent to a prison \nin St Petersburg!",
 				
-				"You were caught poaching an endangered species of lemur in Madagascar, and have been thrown in jail!"};
+				"You were caught poaching an endangered species of lemur in Madagascar, and have been thrown in jail!",
+				
+				"A customs officer found traces of narcotics in your carry on suitcase, and you are now under arrest.",
+				
+				"You were caught flying a stolen helicopter in Uzbekistan, and are being sent to jail!",
+				
+				"Canadian customs found an unlawful firearm in your possession, and you are now under arrest!",
+				
+				"You have pleaded guilty to embezzlement while staying in Taiwan, and as a result, have received \na prison sentence."};
 		
 		System.out.println(reasons[index]);
 		
@@ -464,13 +479,18 @@ public class ICS3U_FP_Code_SamarQureshi {
 			dieRoll = rollDie();
 			dieRollsLeft--;
 			
-			
 			if(dieRoll==1 || dieRoll ==6) {
 				System.out.println("You are now out of jail!");
 				jailState = false;
 			}
-		
+			
+			
 			displayRollsLeft(dieRollsLeft);
+			
+			
+			
+		
+			
 			
 		}
 		
@@ -484,7 +504,7 @@ public class ICS3U_FP_Code_SamarQureshi {
 	public static double tax(double bits) {
 		//if user lands on tax 1 or tax 2 they must pay a random tax	
 		Random rand = new Random();
-		int index = rand.nextInt(6);
+		int index = rand.nextInt(9);
 		int fine = 1+rand.nextInt(16); 
 		//will generate a fine between 1 and 15 million bits
 		
@@ -499,14 +519,19 @@ public class ICS3U_FP_Code_SamarQureshi {
 				+ "pay "+fine+" million bits in hospital fines!",
 				
 				"You accidentally ran over a kangaroo with your Jeep in New Zealand!"
-				+ " You had to pay a fine of 8 million bits \nfor reckless driving, "
-				+ "and another fine of "+fine+" million bits for harming an animal native to New Zealand.",
+				+ " You had to pay a fine of "+fine+" million bits for \nharming an animal native to New Zealand.",
 				
 				"While in South Korea, you were accidentally driving on the wrong side of the road! "
 				+ "\nYou have been fined "+fine+" million bits in violation of a road law.",
 				
-				"You were caught littering in British Columbia! "
-				+ "\nLocal authorities require you to pay a fine of "+fine+" million bits."};
+				"You were caught littering in Nigeria! "
+				+ "\nLocal authorities require you to pay a fine of "+fine+" million bits.",
+				
+				"You are required to pay "+fine+" million bits in import tax.",
+				
+				"At an airport in Singapore, you had to pay a toll of "+fine+" million bits.",
+				
+				"You had to pay "+fine+" million in duty fees."};
 		
 		System.out.println(reasons[index]);
 		
@@ -514,7 +539,7 @@ public class ICS3U_FP_Code_SamarQureshi {
 		
 		return(bits);
 	}
-	
+
 	public static double bonusBits(double bits) {
 		Random rand = new Random();
 		int index = rand.nextInt(6);
@@ -552,6 +577,7 @@ public class ICS3U_FP_Code_SamarQureshi {
 		
 		//calculates how many points the user obtained
 		for(int i = 0; i<obtainedProperties.length; i++) {
+			System.out.println(obtainedProperties[i]);
 			if(obtainedProperties[i]) {
 				obtained++;
 			}
@@ -632,6 +658,13 @@ public class ICS3U_FP_Code_SamarQureshi {
 		return(choice);
 	}
 	
-	
+	public static void asterixLine(String[] properties, int index) {
+		int length = properties[index].length();
+		
+		for(int i = 1; i<=38+length; i++) {
+			System.out.print("*");
+		}
+		
+	}
 
 }
